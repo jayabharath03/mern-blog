@@ -54,7 +54,7 @@ export default function DashSidebar() {
                 icon={HiDocumentText}
                 as='div'
               >
-                posts
+                Posts
               </Sidebar.Item>
             </Link>
           )}
