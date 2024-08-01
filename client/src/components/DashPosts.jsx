@@ -46,7 +46,7 @@ export default function DashPosts() {
         }
     };
 
-    const handleDeletePost = async () => { 
+    const handleDeletePost = async () => {
         setShowModal(false);
         try {
           const res = await fetch(`/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
@@ -69,7 +69,7 @@ export default function DashPosts() {
         <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100
                      scrollbar-thumb-slate-100 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
             {currentUser.isAdmin && userPosts.length > 0 ? (
-            <>  
+            <>
                 <Table hoverable className='shadow-md'>
                     <Table.Head>
                         <Table.HeadCell>Date updated</Table.HeadCell>
@@ -89,15 +89,15 @@ export default function DashPosts() {
                                 </Table.Cell>
                                 <Table.Cell>
                                     <Link to={`/post/${post.slug}`}>
-                                        <img 
+                                        <img
                                         src={post.image}
                                         alt={post.title}
-                                        className='w-20 h-10 object-cover bg-gray-500' 
+                                        className='w-20 h-10 object-cover bg-gray-500'
                                         />
                                     </Link>
                                 </Table.Cell>
                                 <Table.Cell>
-                                    <Link className="font-medium text-gray-900 dark:text-white" 
+                                    <Link className="font-medium text-gray-900 dark:text-white"
                                     to={`/post/${post.slug}`}>
                                         {post.title}
                                     </Link>
@@ -128,12 +128,12 @@ export default function DashPosts() {
                         Show more </button>
                     )
                 }
-            </>  
+            </>
             ) : (
                 <p>You have no posts yet!</p>
             )}
-            <Modal show={showModal} 
-        onClose={()=> setShowModal(false)} 
+            <Modal show={showModal}
+        onClose={()=> setShowModal(false)}
         popup size='md'>
           <Modal.Header/>
           <Modal.Body>
