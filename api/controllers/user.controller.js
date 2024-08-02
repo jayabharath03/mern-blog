@@ -32,7 +32,7 @@ export const updateUser = async (req,res,next) =>{
         }
     }
         try {
-            const updateUser = await User.findByIdAndUpdate(req.params.userId,{
+            const updatedUser = await User.findByIdAndUpdate(req.params.userId,{
                 $set:{ 
                     username: req.body.username,
                     email: req.body.email,
@@ -40,7 +40,7 @@ export const updateUser = async (req,res,next) =>{
                     password: req.body.password,
                 },
             },{new:true});
-            const{password,...rest}=updateUser._doc;
+            const{password,...rest}=updatedUser._doc;
             res.status(200).json(rest);
         } catch (error) {
             next(error);
@@ -49,8 +49,8 @@ export const updateUser = async (req,res,next) =>{
 };
 
 export const deleteUser = async (req,res,next) =>{
-    if(req.user.id !== req.params.userId){
-        return next(errorHandler(403,'You are not allowed to delete thid user'));
+    if (!req.user.isAdmin && req.user.id !== req.params.userId) {
+     return next(errorHandler(403, "You are not allowed to delete thid user"));
     }
     try{
         await User.findByIdAndDelete(req.params.userId);
@@ -63,7 +63,7 @@ export const deleteUser = async (req,res,next) =>{
 
 export const signout = (req, res,next) => {
     try{
-        res.clearCookie('acccess_token')
+        res.clearCookie('access_token')
         .status(200)
         .json('User has been signed out');
     } catch(error) {
@@ -85,7 +85,7 @@ export const getUsers = async (req, res, next) => {
             .limit(limit);
         
         const usersWithoutPassword = users.map((user) => {
-            const { passowrd, ...rest } = user._doc;
+            const { passoword, ...rest } = user._doc;
             return rest;
         });
         const totalUsers = await User.countDocuments();
