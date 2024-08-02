@@ -41,6 +41,7 @@ export default function UpdatePost() {
           setFormData(data.posts[0]);
         }
       };
+
       fetchPost();
     } catch (error) {
       console.log(error.message);
@@ -57,8 +58,8 @@ export default function UpdatePost() {
    const storage = getStorage(app);
    const fileName = new Date().getTime() + "-" + file.name;
    const storageRef = ref(storage, fileName);
-   const uplaodTask = uploadBytesResumable(storageRef, file);
-   uplaodTask.on(
+   const uploadTask = uploadBytesResumable(storageRef, file);
+   uploadTask.on(
     "state_changed",
     (snapshot) => {
      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -69,7 +70,7 @@ export default function UpdatePost() {
      setImageUploadProgress(null);
     },
     () => {
-     getDownloadURL(uplaodTask.snapshot.ref).then((downloadURL) => {
+     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
       setImageUploadProgress(null);
       setImageUploadError(null);
       setFormData({ ...formData, image: downloadURL });
@@ -127,7 +128,7 @@ export default function UpdatePost() {
           value={formData.category}
      >
       <option value="uncategorized">Select a category</option>
-      <option value="javascript">jayascript</option>
+      <option value="javascript">javascript</option>
       <option value="reactjs">reactjs</option>
       <option value="nextjs">nextjs</option>
      </Select>
@@ -137,7 +138,7 @@ export default function UpdatePost() {
             border-teal-500 border-dotted p-3"
     >
      <FileInput
-      ttype="file"
+      type="file"
       accept="image/*"
       onChange={(e) => setFile(e.target.files[0])}
      />
@@ -165,7 +166,7 @@ export default function UpdatePost() {
     {formData.image && (
      <img
       src={formData.image}
-      alt="uplaod"
+      alt="upload"
       className="w-full h-72 object-cover"
      />
     )}
